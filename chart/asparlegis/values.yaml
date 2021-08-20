@@ -1,0 +1,134 @@
+# Declare variables to be passed into your templates.
+## Valores Deployment
+replicaCount: 1
+intervalSeconds: 1
+maxSurge: 25%
+maxUnavailable: 25%
+timeoutSeconds: 600
+updatePeriodSeconds: 1
+
+istio:
+  enabled: true
+
+#Gateway
+gateway:
+  name: gateway
+  defaultServer:
+    hosts:
+      - "dsv-asparlegis.container.mec.gov.br"
+
+# Healthcheck Deployment
+healthcheck:
+  readinessProbe:
+    enabled: false
+    httpGet:
+      path: /
+    initialDelaySeconds: 15
+    timeoutSeconds: 5
+  livenessProbe:
+    enabled: false
+    failureThreshold: 3
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+# Mínimo e máximo de uso dos recursos
+resources:
+  limits:
+    cpu: '400m'
+    memory: 400Mi
+  requests:
+    cpu: 200m
+    memory: 50Mi
+
+# HorizontalPodAutoscaler
+hpa:
+  enabled: false
+  maxReplicas: 2
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 90
+
+# Backend
+backend:
+  name: backend
+  database:
+    driver: "cGRvX3Bnc3Fs"
+    host: "cHNxbC1kZXYtcG9zdGdyZXNxbC5wc3FsLWRldg=="
+    port: "NTQzMg=="
+    name: "ZGJzaXNhbGZh"
+    user: "dXNlcnNpc2FsZmE="
+    password: "TXUzLVZuYzR3dg=="
+  image:
+    repository: mec-registry/asparlegis/backend
+    tag: 
+    pullSecrets: []
+  ports:
+    port: 80
+  edgePath: /api/
+  service:
+    type: ClusterIP
+    externalPort: 80
+    internalPort: 80
+  app:
+    env: 'prod'
+  jwt:
+    issuer: ''
+    audience: ''
+    secret: ''
+    private: "var/keys/private-key.pem"
+    public: "var/keys/public-key.pem"
+    token_exp_time: "40"
+    refresh_token_exp_time: "15"
+    token_type: "Bearer"
+    scopes: "govbr_empresa phone email openid profile"
+  oaut:
+    client:
+      id: "dsv-asparlegis.mec.gov.br"
+      secret: "AJCefMF839pVvRCW50GQexQ7f73ySzWC-s8g2hW4XiTf9U06SaxfSOYH573WuLJmXWVGCj2Rog25VnqfoGs_Y18"
+    redirect:
+      uri: "http://dsv-asparlegis.container.mec.gov.br/login"
+    url:
+      logout: "https://sso.staging.acesso.gov.br/logout"
+      autorize: "https://sso.staging.acesso.gov.br/authorize"
+      access: "https://sso.staging.acesso.gov.br/token"
+      resource: "https://sso.staging.acesso.gov.br/jwk"
+    scopes: "govbr_empresa+phone+email+openid+profile"
+  mailer:
+    dsn1: "smtp://user:pass@smtp.example.com"
+    dns2: "gmail://user:senha@gmail"
+  cors:
+    allow: '*'
+
+# Frontend
+frontend:
+  name: frontend
+  image:
+    repository: mec-registry/asparlegis/frontend
+    tag: 
+    pullSecrets: []
+  ports:
+    port: 80
+  edgePath: /
+  service:
+    type: ClusterIP
+    externalPort: 80
+    internalPort: 80
+# Liquibase
+# TODO PREENCHER AS INFORMAÇÕES CORRETAMENTE
+migration:
+  enabled: true
+  name: migration
+  image: mec-registry/asparlegis/migration
+  pullSecrets: []
+  tag: 
+  file: "bWlncmF0aW9ucy9tYXN0ZXIueG1s"
+  url: amRiYzpwb3N0Z3Jlc3FsOi8vZHN2cG9zdGdyZXNxbDAxOjUyMDIvZGJhc3BhcmxlZ2lzX2Rzdg==
+  hostname: dsvpostgresql01
+  database: "ZGJhc3BhcmxlZ2lzX2Rzdg=="
+  username: "c3lzbGlxdWliYXNl"
+  password: "TWVjIzk5OSEp"
+  driver:
+useroot: true
+
+
+
+

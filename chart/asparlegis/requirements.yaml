@@ -1,0 +1,4 @@
+dependencies:
+  - name: common
+    version: 2.0.1
+    repository: http://nexus.builder.mec.gov.br/repository/commons-helm/ 

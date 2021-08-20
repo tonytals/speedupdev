@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="BASIS" id="BASIS-154788-DATA-1">
+        <insert tableName="tb_asparlegis_perfil">
+            <column name="co_perfil" valueNumeric="1"/>
+            <column name="no_nome" value="Perfil de acesso para professores"/>
+            <column name="no_papel" value="ROLE_PROFESSOR"/>
+            <column name="st_ativo" valueBoolean="true"/>
+        </insert>
+        <insert tableName="tb_asparlegis_perfil">
+            <column name="co_perfil" valueNumeric="2"/>
+            <column name="no_nome" value="Perfil de acesso para diretores"/>
+            <column name="no_papel" value="ROLE_DIRETOR"/>
+            <column name="st_ativo" valueBoolean="true"/>
+        </insert>
+        <insert tableName="tb_asparlegis_perfil">
+            <column name="co_perfil" valueNumeric="3"/>
+            <column name="no_nome" value="Perfil de acesso para secretários"/>
+            <column name="no_papel" value="ROLE_SECRETARIO"/>
+            <column name="st_ativo" valueBoolean="true"/>
+        </insert>
+        <insert tableName="tb_asparlegis_perfil">
+            <column name="co_perfil" valueNumeric="4"/>
+            <column name="no_nome" value="Perfil de acesso para administradores"/>
+            <column name="no_papel" value="ROLE_ADMINISTRADOR"/>
+            <column name="st_ativo" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

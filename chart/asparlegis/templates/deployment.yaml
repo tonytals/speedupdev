@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.backend.name }}"
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    app.kubernetes.io/instance: asparlegis
+    app: "{{ .Values.backend.name }}"
+    version: "1"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    rollingUpdate:
+      maxSurge: {{ .Values.maxSurge }}
+      maxUnavailable: {{ .Values.maxUnavailable }}
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: asparlegis
+      app: "{{ .Values.backend.name }}"
+      version: "1"
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app.kubernetes.io/instance: asparlegis
+        app: "{{ .Values.backend.name }}"
+        version: "1"
+    spec:
+      {{- with .Values.backend.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.migration.enabled }}
+      initContainers:
+        - name: "{{ .Values.migration.name }}"
+          image: "{{ .Values.migration.image }}:{{ .Values.migration.tag }}"
+          imagePullPolicy: {{ .Values.migration.pullPolicy }}
+          envFrom:
+            - secretRef:
+                name: secret-migration
+      {{- end }}
+      containers:
+      - image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        name: {{ .Chart.Name }}
+        envFrom:
+        - secretRef:
+            name: secret-backend
+        - configMapRef:
+            name: cm-backend
+        {{- with .Values.backend.extraEnv }}
+        env:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        ports:
+          - name: http
+            containerPort: {{ .Values.backend.ports.port }}
+        {{- if .Values.healthcheck.readinessProbe.enabled }}
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.healthcheck.readinessProbe.httpGet.path }}
+            port: {{ .Values.backend.ports.port }}
+          initialDelaySeconds: {{ .Values.healthcheck.readinessProbe.initialDelaySeconds }}
+          timeoutSeconds: {{ .Values.healthcheck.readinessProbe.timeoutSeconds }}
+        {{- end }}
+        {{- if .Values.healthcheck.livenessProbe.enabled }}
+        livenessProbe:
+          failureThreshold: {{ .Values.healthcheck.livenessProbe.failureThreshold }}
+          initialDelaySeconds: {{ .Values.healthcheck.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.healthcheck.livenessProbe.periodSeconds }}
+          tcpSocket:
+            port: {{ .Values.backend.ports.port }}
+          timeoutSeconds: {{ .Values.healthcheck.livenessProbe.timeoutSeconds }}
+        {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}

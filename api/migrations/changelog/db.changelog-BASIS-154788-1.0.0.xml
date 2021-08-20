@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="BASIS" id="BASIS-154788-1">
+        <createSequence dataType="int"
+            incrementBy="1"
+            schemaName="public"
+            sequenceName="co_perfil_seq"
+            startValue="1"/>
+        <createTable schemaName="public" tableName="tb_asparlegis_perfil">
+            <column name="co_perfil" type="integer">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="no_nome" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="no_papel" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="st_ativo" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+   </changeSet> 
+ 
+</databaseChangeLog>

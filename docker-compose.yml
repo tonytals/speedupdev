@@ -1,0 +1,72 @@
+version: '3.1'
+services:
+  speedupdev-db:
+    container_name: speedupdev_pgslq_db
+    image: postgres
+    environment:
+      POSTGRES_DB: 'dbspeedupdev'
+      POSTGRES_PASSWORD: 'root'
+      POSTGRES_USER: 'root'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+
+  speedupdev-api:
+    container_name: speedupdev_api
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - 7083:80
+    environment:
+      APP_ENV: 'dev'
+      APP_DEBUG: 'true'
+      APP_URL: 'http://localhost:7081'
+      DATABASE_DRIVER: 'pdo_pgsql'
+      DATABASE_HOST: speedupdev-db
+      DATABASE_PORT: '5432'      
+      DATABASE_NAME: 'dbspeedupdev'
+      DATABASE_USER: 'root'
+      DATABASE_PASSWORD: 'root'
+    restart: always
+    volumes:
+      - ./api/laravel:/var/www/html/api
+    depends_on:
+      - speedupdev-db
+
+  speedupdev-php-fpm:
+    container_name: speedupdev_php_fpm
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_DRIVER: 'pdo_pgsql'
+      DATABASE_HOST: speedupdev-db
+      DATABASE_PORT: '5432'
+      DATABASE_NAME: 'dbspeedupdev'
+      DATABASE_USER: 'root'
+      DATABASE_PASSWORD: 'root'
+    command: php artisan migrate
+    depends_on:
+      - speedupdev-db
+
+  speedupdev-frontend:
+    container_name: speedupdev_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-dev
+    environment:
+      APP_URL: 'http://localhost:7085'
+    volumes:
+      - ./frontend/react:/var/www/html
+    ports:
+      - 7082:3000
+
+networks:
+  default:
+    driver: bridge
+
+volumes: 
+  postgresdata:
+    external: true
