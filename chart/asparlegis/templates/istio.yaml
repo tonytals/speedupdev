@@ -1,6 +1,0 @@
----
-{{ template "common.service" (dict "context" . "service" (merge .Values.backend .Values.common.deployment)) }}
----
-{{ template "common.service" (dict "context" . "service" (merge .Values.frontend .Values.common.deployment)) }}
----
-{{- template "common.istio" (dict "context" . "gateway" (merge .Values.gateway .Values.common.istio.gateway) "microservices" (list .Values.backend ) "cliente" .Values.frontend) -}}
