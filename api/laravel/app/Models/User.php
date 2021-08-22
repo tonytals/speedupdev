@@ -3,37 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, SoftDeletes;
-
-    /**
-     * Find the user instance for the given username.
-     *
-     * @param  string  $username
-     * @return \App\User
-     */
-    public function findForPassport($username)
-    {
-        return self::where('name', $username)->first();
-    }
-
-    /**
-     * Validate the password of the user for the Passport password grant.
-     *
-     * @param  string  $password
-     * @return bool
-     */
-    public function validateForPassportPasswordGrant($password)
-    {
-        return Hash::check($password, $this->password);
-    }
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,19 +21,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'cpf',
-        'data_nascimento',
-        'sexo',
-        'email_institucional',
-        'telefone',
-        'email_pessoal',
-        'telefone_alternativo',
-        'unidade_finalistica',
-        'setor',
-        'cargo',
-        'situacao_mec',
-        'perfil',
-        'situacao',
     ];
 
     /**
@@ -65,7 +29,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -76,5 +41,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
 }

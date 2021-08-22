@@ -43,7 +43,7 @@ RUN set -eux && \
     composer dump-autoload && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
-    mv .env.example .env
+    cp .env.example .env
 
 WORKDIR /var/www/html/api
 

@@ -13,13 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/api/', function () {
+Route::get('/', function () {
     return view('welcome');
 });
-
-use App\Mail\ConviteMail;
-use Illuminate\Support\Facades\Mail;
-
-
-
-
