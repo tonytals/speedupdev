@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Primeiro = atributos => {
+const Primeiro = props => {
     return (
         <div>
-            <h1>{atributos.titulo}</h1>
+            <h1>{props.titulo}</h1>
             <hr></hr>
-            <h2>{atributos.sub}</h2>
+            <h2>{props.sub}</h2>
         </div>
     )
 }
