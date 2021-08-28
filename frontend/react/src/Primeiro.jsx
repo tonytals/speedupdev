@@ -6,6 +6,7 @@ const Primeiro = props => {
             <h1>{props.titulo}</h1>
             <hr></hr>
             <h2>{props.sub}</h2>
+            <h2>{props.qualquernome}</h2>
         </div>
     )
 }

@@ -20,6 +20,7 @@ function App() {
         </a>
         <Primeiro 
           titulo="Titulo Alterado"
+          qualquernome="qualquer"
         />
         <Primeiro 
           titulo="Titulo 2"
