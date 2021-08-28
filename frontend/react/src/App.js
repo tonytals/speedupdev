@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Primeiro from './Primeiro';
+import Botao from './components/button';
 
 function App() {
   return (
@@ -18,17 +18,16 @@ function App() {
         >
           Learn React!!
         </a>
-        <Primeiro 
-          titulo="Titulo Alterado"
-          qualquernome="qualquer"
+        <Botao
+          titulo="cancelar"
+          submit='não'
         />
-        <Primeiro 
-          titulo="Titulo 2"
-          sub="sub1"
-        />
-        <Primeiro 
-          titulo="Diferente"
-        />
+        <Botao
+          titulo="Enviar Formulário"
+          submit='sim'
+        >
+            
+        </Botao>
       </header>
     </div>
   );
