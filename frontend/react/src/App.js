@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import Botao from './components/button';
 
 function App() {
   return (
@@ -15,8 +16,18 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React!
+          Learn React!!
         </a>
+        <Botao
+          titulo="cancelar"
+          submit='não'
+        />
+        <Botao
+          titulo="Enviar Formulário"
+          submit='sim'
+        >
+            
+        </Botao>
       </header>
     </div>
   );
