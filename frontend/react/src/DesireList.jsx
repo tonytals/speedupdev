@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import api from './Api';
 
 const DesireList = props => {
 
@@ -7,6 +8,16 @@ const DesireList = props => {
     const ControleEnvio = (event) => {
         event.preventDefault();
         console.log(object_name);
+
+        api.post('inserirItemDesejo', object_name)
+            .then((response) => {
+
+                console.log('Resposta Api.');
+                console.log(response.data);
+            })
+            .catch((err) => {
+                console.error("ops! ocorreu um erro" + err);
+            });
     }
 
     const ControleAsMudancas = (event) => {
