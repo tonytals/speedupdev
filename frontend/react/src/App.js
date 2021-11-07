@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,  Routes,  Route,  Link
 } from "react-router-dom";
 import DesireList from "./DesireList";
+import ToDoList from "./ToDoList";
 
 export default function App() {
   return (
@@ -16,6 +17,9 @@ export default function App() {
             <li>
               <Link to="/DesireList">Lista de Desejos</Link>
             </li>
+            <li>
+              <Link to="/ToDoList">Lista de Afazeres</Link>
+            </li>
             
           </ul>
         </nav>
@@ -23,6 +27,7 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Routes>
+          <Route path="/ToDoList" element={<ToDoList />} />
           <Route path="/DesireList" element={<DesireList />}>
           </Route>
           <Route path="/about" element={<About />}>
